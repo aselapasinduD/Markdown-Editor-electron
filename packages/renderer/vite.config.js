@@ -1,18 +1,10 @@
 /* eslint-env node */
-
 import {chrome} from '../../.electron-vendors.cache.json';
-import vue from '@vitejs/plugin-vue';
-import {renderer} from 'unplugin-auto-expose';
 import {join} from 'node:path';
-import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
 
 const PACKAGE_ROOT = __dirname;
 const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
 
-/**
- * @type {import('vite').UserConfig}
- * @see https://vitejs.dev/config/
- */
 const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
@@ -42,13 +34,7 @@ const config = {
   test: {
     environment: 'happy-dom',
   },
-  plugins: [
-    vue(),
-    renderer.vite({
-      preloadEntry: join(PACKAGE_ROOT, '../preload/src/index.ts'),
-    }),
-    injectAppVersion(),
-  ],
+  plugins: [],
 };
 
 export default config;
