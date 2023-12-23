@@ -27,11 +27,6 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-/* #title-bar {
-    -webkit-app-region: drag;
-    background: #eee;
-    height: 30px;
-    position: absolute;
-    width: 100%;
-    position: static;
-  } */
+#root {
+    height: 100%;
+}

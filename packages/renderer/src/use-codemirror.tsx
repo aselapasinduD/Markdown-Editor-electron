@@ -40,14 +40,12 @@ interface Props {
 }
 
 const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefObject<T | null>, EditorView?] => {
-    console.log("Working use code mirror");
     const refContainer = useRef<T>(null);
     const [editorView, setEditorView] = useState<EditorView>();
     const { onChange } = props;
 
     useEffect(()=> {
         if(!refContainer.current) return
-        console.log("top useEffect working");
 
         const initialState = EditorState.create({
             doc: props.initialDoc,
@@ -75,8 +73,6 @@ const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefOb
             ]
         });
 
-        console.log("initial State: ", initialState);
-
         const view = new EditorView({
             state: initialState,
             parent: refContainer.current
@@ -85,12 +81,8 @@ const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefOb
         view.dom.setAttribute('aria-label', 'Code editor');
 
         setEditorView(view);
-        console.log(view);
-
     },[refContainer]);
-
-    console.log("ref container: ", refContainer);
-    console.log("Editor view: ",editorView);
+    
     return [refContainer, editorView];
 }
 

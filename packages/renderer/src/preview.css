@@ -1,0 +1,11 @@
+.preview-wrapper.markdown-body {
+    height: 100%;
+    flex: 0 0 50%;
+    box-sizing: border-box;
+    overflow: auto;
+    color: #3a3a3a;
+}
+
+.preview-wrapper.markdown-body pre {
+    background-color: rgba(168, 167, 212, 0.45);
+}
