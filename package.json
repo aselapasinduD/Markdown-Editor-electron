@@ -1,5 +1,5 @@
 {
-  "name": "vite-electron-builder",
+  "name": "Markdown-Editor-electron",
   "description": "Secure boilerplate for Electron app based on Vite",
   "version": "1.0.2",
   "private": true,
@@ -51,6 +51,18 @@
     "vitest": "0.34.6"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.3.2",
+    "@codemirror/gutter": "^0.19.9",
+    "@codemirror/highlight": "^0.19.8",
+    "@codemirror/history": "^0.19.2",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/lang-markdown": "^6.2.3",
+    "@codemirror/language": "^6.9.3",
+    "@codemirror/language-data": "^6.3.1",
+    "@codemirror/matchbrackets": "^0.19.4",
+    "@codemirror/state": "^6.3.3",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@codemirror/view": "^6.22.3",
     "electron-updater": "6.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
