@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
-import { EditorView, keymap, highlightActiveLine, lineNumbers, highlightActiveLineGutter } from '@codemirror/view';
+import { EditorView, keymap, highlightActiveLine, lineNumbers, highlightActiveLineGutter, Panel } from '@codemirror/view';
 import { defaultKeymap, historyKeymap, history } from '@codemirror/commands';
 import { indentOnInput, bracketMatching } from '@codemirror/language';
 import { tags, HighlightStyle } from '@codemirror/highlight';
@@ -67,7 +67,7 @@ const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefOb
                 EditorView.lineWrapping,
                 EditorView.updateListener.of(update => {
                     if (update.changes) {
-                        onChange && onChange(update.state)
+                        onChange && onChange(update.state);
                     }
                 })
             ]
@@ -82,7 +82,7 @@ const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefOb
 
         setEditorView(view);
     },[refContainer]);
-    
+
     return [refContainer, editorView];
 }
 

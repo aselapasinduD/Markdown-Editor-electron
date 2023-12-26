@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Editor from './editor';
 import Preview from './preview';
 import './app.css';
@@ -8,8 +8,12 @@ const testTemplate = "# Title\n=======\n\n## Heading 2\n### Heading 3\n\n```js\n
 const App:React.FC = () => {
     const [doc, setDoc] = useState<string>(testTemplate);
     const handleDocChange = useCallback((newDoc:React.SetStateAction<string>) => {
-        setDoc(newDoc)
-    }, [])
+        setDoc(newDoc);
+    }, []);
+
+    window.api.invoke('sendDoc', doc).then(function(res){console.log(res)}).catch(function(err){console.log(err)});
+    window.api.invoke('fileName', "Testing Name").then(function(res){console.log(res)}).catch(function(err){console.log(err)});
+
     return (
         <div className='app'>
             <Editor onChange={handleDocChange} initialDoc={doc} />

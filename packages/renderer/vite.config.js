@@ -1,4 +1,5 @@
 /* eslint-env node */
+import { builtinModules } from 'node:module';
 import {chrome} from '../../.electron-vendors.cache.json';
 import {join} from 'node:path';
 
@@ -25,8 +26,14 @@ const config = {
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
+    win: {
+      icon: "./assets/logo.png"
+    },
     rollupOptions: {
       input: join(PACKAGE_ROOT, 'index.html'),
+      external: [
+        ...builtinModules.filter(m => m !== 'process' && m !== 'assert')
+      ]
     },
     emptyOutDir: true,
     reportCompressedSize: false,

@@ -11,8 +11,9 @@ const Editor: React.FC<Props> = (props) => {
     const { onChange, initialDoc } = props;
     const hangleChange = useCallback(
         state => onChange(state.doc.toString()),
-        [onchange]
+        [onChange]
     )
+
     const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
         initialDoc: initialDoc,
         onChange: hangleChange

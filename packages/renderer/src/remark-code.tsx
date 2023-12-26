@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import runmode, { getLanguage } from './runmode'
+import React, { useEffect, useState } from 'react';
+import runmode, { getLanguage } from './runmode';
 
 type Tokens = {
   text: string,
@@ -9,9 +9,9 @@ type Tokens = {
 const RemarkCode: React.FC<
   React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
 > = props => {
-  const [spans, setSpans] = useState<Tokens>([])
-  const { className } = props
-  const langName = (className || '').substr(9)
+  const [spans, setSpans] = useState<Tokens>([]);
+  const { className } = props;
+  const langName = (className || '').substr(9);
 
   useEffect(() => {
     getLanguage(langName).then(language => {
@@ -46,4 +46,4 @@ const RemarkCode: React.FC<
   }
 }
 
-export default RemarkCode
+export default RemarkCode;

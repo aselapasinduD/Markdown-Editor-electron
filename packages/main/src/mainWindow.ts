@@ -1,11 +1,18 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, Menu, ipcMain, ipcRenderer} from 'electron';
 import {join, resolve} from 'node:path';
 
+// Import custom function
+import menuFunctionHandle from './menuFunctionHandle';
+import { menuFunctions } from './mainMenuBar';
+
+
+
 async function createWindow() {
-  const browserWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
     vibrancy: 'under-window',
     visualEffectState: 'active',
+    icon: join(app.getAppPath(), 'buildResources/icon1024x1024.png'),
     // transparent: true,
     // frame: false,
     webPreferences: {
@@ -16,7 +23,6 @@ async function createWindow() {
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
     },
   });
-
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,
@@ -25,11 +31,11 @@ async function createWindow() {
    *
    * @see https://github.com/electron/electron/issues/25012 for the afford mentioned issue.
    */
-  browserWindow.on('ready-to-show', () => {
-    browserWindow?.show();
+  mainWindow.on('ready-to-show', () => {
+    mainWindow?.show();
 
     if (import.meta.env.DEV) {
-      browserWindow?.webContents.openDevTools();
+      mainWindow?.webContents.openDevTools();
     }
   });
 
@@ -40,7 +46,7 @@ async function createWindow() {
     /**
      * Load from the Vite dev server for development.
      */
-    await browserWindow.loadURL(import.meta.env.VITE_DEV_SERVER_URL);
+    await mainWindow.loadURL(import.meta.env.VITE_DEV_SERVER_URL);
   } else {
     /**
      * Load from the local file system for production and test.
@@ -51,10 +57,10 @@ async function createWindow() {
      * @see https://github.com/nodejs/node/issues/12682
      * @see https://github.com/electron/electron/issues/6869
      */
-    await browserWindow.loadFile(resolve(__dirname, '../../renderer/dist/index.html'));
+    await mainWindow.loadFile(resolve(__dirname, '../../renderer/dist/index.html'));
   }
 
-  return browserWindow;
+  return mainWindow;
 }
 
 /**
@@ -71,5 +77,33 @@ export async function restoreOrCreateWindow() {
     window.restore();
   }
 
+  const menuTemplate = menuFunctions(window, menuFunctionHandle);
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+
   window.focus();
 }
+
+// Data receive callback
+ipcMain.handle('sendDoc', async(event, arg) => {
+  return new Promise((resolve, rejects) => {
+    if (true) {
+      resolve("Data received!");
+      console.log(arg);
+    } else {
+      rejects("Data didn't received!");
+    }
+  });
+});
+
+// File name receive callback
+ipcMain.handle('fileName', async(event, arg) => {
+  return new Promise((resolve, rejects) => {
+    if (true) {
+      resolve("File Name received!");
+      console.log(arg);
+    } else {
+      rejects("File Name didn't received!");
+    }
+  });
+});

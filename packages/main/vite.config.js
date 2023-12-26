@@ -25,6 +25,9 @@ const config = {
     outDir: 'dist',
     assetsDir: '.',
     minify: process.env.MODE !== 'development',
+    win: {
+      icon: "../renderer/assets/logo.png"
+    },
     lib: {
       entry: 'src/index.ts',
       formats: ['cjs'],

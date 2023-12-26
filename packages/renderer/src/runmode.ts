@@ -1,7 +1,7 @@
-import { highlightTree } from '@codemirror/highlight'
-import { languages } from '@codemirror/language-data'
-import { oneDarkHighlightStyle } from '@codemirror/theme-one-dark'
-import type { Language, LanguageDescription } from '@codemirror/language'
+import { highlightTree } from '@codemirror/highlight';
+import { languages } from '@codemirror/language-data';
+import { oneDarkHighlightStyle } from '@codemirror/theme-one-dark';
+import type { Language, LanguageDescription } from '@codemirror/language';
 
 type RunModeCallback = (
   text: string,
@@ -15,9 +15,9 @@ function runmode(
   language: Language,
   callback: RunModeCallback
 ): void {
-  const tree = language.parser.parse(textContent)
+  const tree = language.parser.parse(textContent);
   let pos = 0
-  highlightTree(tree, oneDarkHighlightStyle.match, (from, to, classes) => {
+  highlightTree(tree, oneDarkHighlightStyle, (from, to, classes) => {
     if (from > pos) {
       callback(textContent.slice(pos, from), null, pos, from)
     }
