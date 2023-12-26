@@ -1,12 +1,11 @@
 {
-  "name": "Markdown-Editor-electron",
+  "name": "Markdown Editor",
   "description": "Secure boilerplate for Electron app based on Vite",
   "version": "1.0.2",
   "private": true,
   "author": {
-    "email": "kozackunisoft@gmail.com",
-    "name": "Alex Kozack",
-    "url": "https://kozack.me"
+    "email": "asela.pasindu.dias17@gmail.com",
+    "name": "Asela Pasindu"
   },
   "main": "packages/main/dist/index.cjs",
   "scripts": {
