@@ -1,10 +1,13 @@
-import { Menu, BrowserWindow, MenuItem } from "electron";
+import { BrowserWindow, ipcMain } from "electron";
+import { readFileSync } from "node:original-fs";
+import { resolve } from "node:path";
 
 const isMac = process.platform === 'darwin'
 
 // Interface for Menu Template
 interface subMenuFace {
   label?: string;
+  accelerator?: string;
   click?: () => void;
   type?: string;
   role?: string;
@@ -15,36 +18,53 @@ interface menuTemplateFace {
 }
 // ^Interface for Menu Template^
 
-export const menuFunctions = (window: BrowserWindow, func: any) => {
+const openFile = (mainWindow: BrowserWindow, func: any) => {
+  console.log("Open: Click is Working");
+
+  const openFilePath = func(mainWindow, "openFile");
+  if (typeof openFilePath === 'undefined') return;
+
+  const fileName = openFilePath[0].split('\\').pop();
+  const readFile = readFileSync(openFilePath.pop()).toString();
+  
+  mainWindow.webContents.send("openFile", { contents: readFile, fileName: fileName});
+}
+
+const saveFile = (mainWindow: BrowserWindow, func: any) => {
+  console.log("Save File: Working");
+
+  let saveFilePath = func(mainWindow, "saveFile");
+
+  if (typeof saveFilePath === 'undefined') return;
+
+  mainWindow.webContents.send("saveFile", {saveFilePath: saveFilePath});
+}
+
+export const menuFunctions = (mainWindow: BrowserWindow, func: any) => {
 
   const menuTemplate: Array<menuTemplateFace> = [
     {
       label: 'File',
       submenu: [
         {label: 'New File',
+          accelerator: "CommandOrControl+N",
           click: () => {
             console.log("New File: Click is Working");
           }
         },
         {label: 'Open',
-          click: () => {
-            console.log("Open: Click is Working");
-            const openFilePath = func(window, "openFile");
-            console.log(openFilePath);
-          }
+          accelerator: "CommandOrControl+O",
+          click: () => openFile(mainWindow, func)
         },
         {type: 'separator'},
         {label: 'Save',
-          click: () => {
-            console.log("Save: Click is Working");
-            const saveFilePath = func(window, "saveFile");
-            console.log(saveFilePath);
-          }
+          accelerator: "CommandOrControl+S",
+          click: () => saveFile(mainWindow, func)
         },
         {label: 'Save As',
           click: () => {
             console.log("Save As: Click is Working");
-            const saveFilePath = func(window, "saveFile");
+            const saveFilePath = func(mainWindow, "saveFile");
             console.log(saveFilePath);
           }
         },

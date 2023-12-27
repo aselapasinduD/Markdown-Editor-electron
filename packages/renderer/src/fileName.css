@@ -1,0 +1,9 @@
+.FileName {
+    font-size: 1.2em;
+    font-weight: 600;
+    border: unset;
+    padding: 2px;
+    margin: 2px;
+    max-width: 500px;
+    outline: unset;
+}

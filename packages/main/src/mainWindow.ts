@@ -1,11 +1,11 @@
-import {app, BrowserWindow, Menu, ipcMain, ipcRenderer} from 'electron';
+import {app, BrowserWindow, Menu, ipcMain} from 'electron';
 import {join, resolve} from 'node:path';
 
 // Import custom function
 import menuFunctionHandle from './menuFunctionHandle';
 import { menuFunctions } from './mainMenuBar';
-
-
+import { writeFileSync } from 'node:original-fs';
+import saveFile from './saveFile';
 
 async function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -13,8 +13,6 @@ async function createWindow() {
     vibrancy: 'under-window',
     visualEffectState: 'active',
     icon: join(app.getAppPath(), 'buildResources/icon1024x1024.png'),
-    // transparent: true,
-    // frame: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -67,21 +65,21 @@ async function createWindow() {
  * Restore an existing BrowserWindow or Create a new BrowserWindow.
  */
 export async function restoreOrCreateWindow() {
-  let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
+  let mainWindow = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
 
-  if (window === undefined) {
-    window = await createWindow();
+  if (mainWindow === undefined) {
+    mainWindow = await createWindow();
   }
 
-  if (window.isMinimized()) {
-    window.restore();
+  if (mainWindow.isMinimized()) {
+    mainWindow.restore();
   }
 
-  const menuTemplate = menuFunctions(window, menuFunctionHandle);
+  const menuTemplate = menuFunctions(mainWindow, menuFunctionHandle);
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
-  window.focus();
+  mainWindow.focus();
 }
 
 // Data receive callback
@@ -90,20 +88,21 @@ ipcMain.handle('sendDoc', async(event, arg) => {
     if (true) {
       resolve("Data received!");
       console.log(arg);
+      const {doc, saveFilePath} = arg;
+      writeFileSync(saveFilePath, doc);
     } else {
       rejects("Data didn't received!");
     }
   });
 });
 
-// File name receive callback
 ipcMain.handle('fileName', async(event, arg) => {
   return new Promise((resolve, rejects) => {
     if (true) {
-      resolve("File Name received!");
+      resolve("Data received!");
       console.log(arg);
     } else {
-      rejects("File Name didn't received!");
+      rejects("Data didn't received!");
     }
   });
 });

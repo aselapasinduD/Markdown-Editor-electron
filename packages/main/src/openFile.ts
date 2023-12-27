@@ -3,7 +3,7 @@ import { BrowserWindow, dialog } from "electron";
 const openFile = (mainWindow: BrowserWindow) => {
     const OpenFilePath = dialog.showOpenDialogSync(mainWindow, {
         title: "Open File",
-        properties: ['openFile', 'multiSelections', 'createDirectory'],
+        properties: ['openFile', 'createDirectory'],
         filters: [{name: 'Markdown', extensions: ['md']}]
     });
 

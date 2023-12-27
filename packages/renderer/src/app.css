@@ -1,8 +1,10 @@
-.app {
+.funcational-view {
     background-color: transparent;
     display: flex;
     flex-direction: row;
     padding-right: 12px;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 button {

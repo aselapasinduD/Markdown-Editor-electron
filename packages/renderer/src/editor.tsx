@@ -4,11 +4,12 @@ import './editor.css';
 
 interface Props {
     initialDoc: string,
-    onChange: (doc: string) => void
+    onChange: (doc: string) => void,
+    openDoc: string
 }
 
 const Editor: React.FC<Props> = (props) => {
-    const { onChange, initialDoc } = props;
+    const { onChange, initialDoc, openDoc } = props;
     const hangleChange = useCallback(
         state => onChange(state.doc.toString()),
         [onChange]
@@ -16,7 +17,8 @@ const Editor: React.FC<Props> = (props) => {
 
     const [refContainer, editorView] = useCodeMirror<HTMLDivElement>({
         initialDoc: initialDoc,
-        onChange: hangleChange
+        onChange: hangleChange,
+        openDoc: openDoc
     })
     useEffect(() => {
         if(editorView) {

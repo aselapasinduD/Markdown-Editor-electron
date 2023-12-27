@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, highlightActiveLine, lineNumbers, highlightActiveLineGutter, Panel } from '@codemirror/view';
 import { defaultKeymap, historyKeymap, history } from '@codemirror/commands';
-import { indentOnInput, bracketMatching } from '@codemirror/language';
+import { indentOnInput, bracketMatching, DocInput } from '@codemirror/language';
 import { tags, HighlightStyle } from '@codemirror/highlight';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
@@ -36,7 +36,8 @@ const syntaxHighlighting = HighlightStyle.define([
 
 interface Props {
     initialDoc: string,
-    onChange: (state: EditorState) => void
+    onChange: (state: EditorState) => void,
+    openDoc: string
 }
 
 const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefObject<T | null>, EditorView?] => {
@@ -47,41 +48,53 @@ const useCodeMirror = <T extends HTMLElement>(props: Props): [React.MutableRefOb
     useEffect(()=> {
         if(!refContainer.current) return
 
-        const initialState = EditorState.create({
-            doc: props.initialDoc,
-            extensions: [
-                keymap.of([...defaultKeymap, ...historyKeymap]),
-                lineNumbers(),
-                highlightActiveLine(),
-                highlightActiveLineGutter(),
-                indentOnInput(),
-                markdown({
-                    base: markdownLanguage,
-                    codeLanguages: languages,
-                    addKeymap: true
-                }),
-                oneDark,
-                transparentTheme,
-                history(),
-                bracketMatching(),
-                EditorView.lineWrapping,
-                EditorView.updateListener.of(update => {
-                    if (update.changes) {
-                        onChange && onChange(update.state);
-                    }
-                })
-            ]
-        });
+        if (!editorView) {
+            const initialState = EditorState.create({
+                doc: props.initialDoc,
+                extensions: [
+                    keymap.of([...defaultKeymap, ...historyKeymap]),
+                    lineNumbers(),
+                    highlightActiveLine(),
+                    highlightActiveLineGutter(),
+                    indentOnInput(),
+                    markdown({
+                        base: markdownLanguage,
+                        codeLanguages: languages,
+                        addKeymap: true
+                    }),
+                    oneDark,
+                    transparentTheme,
+                    history(),
+                    bracketMatching(),
+                    EditorView.lineWrapping,
+                    EditorView.updateListener.of(update => {
+                        if (update.changes) {
+                            onChange && onChange(update.state);
+                        }
+                    })
+                ]
+            });
 
-        const view = new EditorView({
-            state: initialState,
-            parent: refContainer.current
-        });
+            const view = new EditorView({
+                state: initialState,
+                parent: refContainer.current
+            });
 
-        view.dom.setAttribute('aria-label', 'Code editor');
+            view.dom.setAttribute('aria-label', 'Code editor');
 
-        setEditorView(view);
-    },[refContainer]);
+            setEditorView(view);
+        }
+
+        if (props.openDoc) {
+            editorView.dispatch({
+                changes: {
+                from: 0,
+                to: editorView.state.doc.length,
+                insert: props.openDoc
+                }
+            });
+        }
+    },[refContainer, props.openDoc]);
 
     return [refContainer, editorView];
 }
