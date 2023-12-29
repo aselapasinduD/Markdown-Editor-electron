@@ -18,16 +18,18 @@ const App:React.FC = () => {
     const saveFile = (props: any) => window.api.invoke('sendDoc', props);
 
     // link to openFile button in file menu to open file function
-    window.api.invoke('openFile', (event, arg) => {
+    window.api.on('openFile', (event, arg) => {
        setOpenDoc(arg.contents);
        setOpenFileName(arg.fileName);
     });
     // link to save button in file menu to save file function 
-    window.api.invoke("saveFile", (event, arg) => saveFile({doc: doc, saveFilePath: arg.saveFilePath}));
+    window.api.on("saveFile", (event, arg) => saveFile({doc: doc, saveFilePath: arg.saveFilePath}));
 
     return (
         <div className='app'>
-            <FileName openFileName={openFileName} />
+            <div className='toolbar'>
+                <FileName openFileName={openFileName} />
+            </div>
             <div className='funcational-view'>
                 <Editor onChange={handleDocChange} initialDoc={doc} openDoc={openDoc} />
                 <Preview doc={doc} />

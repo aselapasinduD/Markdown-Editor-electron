@@ -16,12 +16,12 @@ const FileName = (openFileName:string ) => {
     useEffect(() => {
         if(!refFileName.current) return
         if(!fileName) return
-        if(fileName !== OpenFileName) return
-        console.log("test 1: ", OpenFileName);
-        console.log("test 2: ", fileName)
-        window.api.invoke('fileName', fileName);
-
-    },[fileName, OpenFileName]);
+        if(fileName === OpenFileName) {
+            window.api.send('fileName', OpenFileName);
+            return
+        }
+        window.api.send('fileName', fileName);
+    },[fileName]);
 
     const handleFileName = () => {
         if(!refFileName.current) return

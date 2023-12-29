@@ -4,13 +4,15 @@ import { BrowserWindow } from "electron";
 import openFile from "./openFile";
 import saveFile from "./saveFile";
 
-const menuFunctionHandle = (window:BrowserWindow, menuOption:string, defalultFileName:string = "Readme") => {
-    if (menuOption == "") return
+const menuFunctionHandle = (window:BrowserWindow, menuOption:string, defalultFileName:string = "Untitiled") => {
 
-    if(menuOption === "openFile") {
+    const menuFunctions = ["openFile", "saveFile"];
+    if (!menuFunctions.includes(menuOption)) return
+
+    if(menuOption === menuFunctions[0]) {
         var openFilePath = openFile(window);
         return openFilePath;
-    } else if (menuOption === "saveFile") {
+    } else if (menuOption === menuFunctions[1]) {
         var saveFilePath = saveFile(window, defalultFileName);
         return saveFilePath;
     }

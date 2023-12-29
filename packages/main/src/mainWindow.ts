@@ -87,20 +87,8 @@ ipcMain.handle('sendDoc', async(event, arg) => {
   return new Promise((resolve, rejects) => {
     if (true) {
       resolve("Data received!");
-      console.log(arg);
       const {doc, saveFilePath} = arg;
       writeFileSync(saveFilePath, doc);
-    } else {
-      rejects("Data didn't received!");
-    }
-  });
-});
-
-ipcMain.handle('fileName', async(event, arg) => {
-  return new Promise((resolve, rejects) => {
-    if (true) {
-      resolve("Data received!");
-      console.log(arg);
     } else {
       rejects("Data didn't received!");
     }

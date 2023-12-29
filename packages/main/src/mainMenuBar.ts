@@ -1,6 +1,5 @@
 import { BrowserWindow, ipcMain } from "electron";
 import { readFileSync } from "node:original-fs";
-import { resolve } from "node:path";
 
 const isMac = process.platform === 'darwin'
 
@@ -30,10 +29,17 @@ const openFile = (mainWindow: BrowserWindow, func: any) => {
   mainWindow.webContents.send("openFile", { contents: readFile, fileName: fileName});
 }
 
+// get fileName
+var fileName: string;
+ipcMain.on("fileName", async(event, arg) => {
+  console.log(arg);
+  fileName = arg;
+});
+
 const saveFile = (mainWindow: BrowserWindow, func: any) => {
   console.log("Save File: Working");
 
-  let saveFilePath = func(mainWindow, "saveFile");
+  let saveFilePath = func(mainWindow, "saveFile", fileName);
 
   if (typeof saveFilePath === 'undefined') return;
 

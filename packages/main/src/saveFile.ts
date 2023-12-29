@@ -1,15 +1,14 @@
-import { BrowserWindow, dialog, ipcMain, ipcRenderer } from "electron";
+import { BrowserWindow, dialog } from "electron";
 
 const saveFile = (mainWindow:BrowserWindow, defaultFileName:string) => {
-    
-    const SaveFilePath = dialog.showSaveDialogSync(mainWindow, {
-        title: "Save File",
-        defaultPath: defaultFileName,
-        properties: ["createDirectory", "showOverwriteConfirmation"],
-        filters: [{name: 'Markdown', extensions: ['md']}],
-    });
+  const SaveFilePath = dialog.showSaveDialogSync(mainWindow, {
+      title: "Save File",
+      defaultPath: defaultFileName,
+      properties: ["createDirectory", "showOverwriteConfirmation"],
+      filters: [{name: 'Markdown', extensions: ['md']}],
+  });
 
-    return SaveFilePath;
+  return SaveFilePath;
 }
 
 export default saveFile;
