@@ -50,6 +50,23 @@ export const menuFunctions = (mainWindow: BrowserWindow, func: any) => {
 
   const menuTemplate: Array<menuTemplateFace> = [
     {
+       // { role: 'appMenu' }
+      ...(isMac
+        ? [{
+            label: app.name,
+            submenu: [
+              { role: 'about' },
+              { type: 'separator' },
+              { role: 'services' },
+              { type: 'separator' },
+              { role: 'hide' },
+              { role: 'hideOthers' },
+              { role: 'unhide' },
+              { type: 'separator' },
+              { role: 'quit' }
+            ]
+          }]
+        : []),
       label: 'File',
       submenu: [
         {label: 'New File',
@@ -108,6 +125,24 @@ export const menuFunctions = (mainWindow: BrowserWindow, func: any) => {
             ])
       ]
     },
+     // { role: 'windowMenu' }
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(isMac
+          ? [
+              { type: 'separator' },
+              { role: 'front' },
+              { type: 'separator' },
+              { role: 'window' }
+            ]
+          : [
+              { role: 'close' }
+            ])
+      ]
+    }, 
   ];
 
   return menuTemplate;

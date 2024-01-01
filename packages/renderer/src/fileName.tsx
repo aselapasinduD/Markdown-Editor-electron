@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import './fileName.css';
 
-const FileName = (openFileName:string ) => {
+const FileName: React.FC<{openFileName:string | undefined}> = (openFileName) => {
     const refFileName = useRef();
     let OpenFileName= openFileName.openFileName;
     const [fileName, setFileName] = useState<string>("Untitiled.md");

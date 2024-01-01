@@ -5,8 +5,8 @@
     box-sizing: border-box;
     overflow: auto;
     color: #3a3a3a;
-    border: 1px solid rgb(196, 196, 196);
-    border-radius: 10px;
+    border-radius: 0 12px 12px 0;
+    background-color: #f1f1f194;
 }
 
 .preview-wrapper.markdown-body pre {

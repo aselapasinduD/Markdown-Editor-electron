@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import Editor from './editor';
 import Preview from './preview';
 import FileName from './fileName';
+import FooterStatusBar from './footerStatusBar';
 import './app.css';
 
 let testTemplate = "# Title\n=======\n\n## Heading 2\n### Heading 3\n\n```js\nconsole.log('hello, World!')'\nfunction test() {\n  return 1\n}\n```\n\n```python\nif(i=0, i<0, i++){\n     print(i)\n}\nprint(\"Hello, World!\")\n```\n\n* List item 1\n* List item 2\n\n1. Numbered list item\n2. Numbered list item\n\n* [ ] check list item\n* [X] done\n\n> quote item\n";
@@ -30,9 +31,14 @@ const App:React.FC = () => {
             <div className='toolbar'>
                 <FileName openFileName={openFileName} />
             </div>
-            <div className='funcational-view'>
-                <Editor onChange={handleDocChange} initialDoc={doc} openDoc={openDoc} />
-                <Preview doc={doc} />
+            <div className='funcational-view-wrap'>
+                <div className='funcational-view'>
+                    <Editor onChange={handleDocChange} initialDoc={doc} openDoc={openDoc} />
+                    <Preview doc={doc} />
+                </div>
+            </div>
+            <div className='footer-status-bar'>
+                <FooterStatusBar doc={doc}/>
             </div>
         </div>
     );

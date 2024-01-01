@@ -1,4 +1,8 @@
 .editor-wrapper {
-    height: 100%;
+    height: inherit;
     flex: 0 0 50%;
+    background-color: #1d1d1d;
+}
+.editor-wrapper * {
+    outline: unset;
 }

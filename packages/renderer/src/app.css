@@ -1,11 +1,13 @@
+.funcational-view-wrap {
+    overflow-y: scroll;
+    margin-top: 30px;
+    border-radius: 7px;
+    height: calc(100vh - 50px);
+}
 .funcational-view {
     background-color: transparent;
     display: flex;
-    flex-direction: row;
-    padding-right: 12px;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-top: 30px;
+    flex-direction: row;   
 }
 
 button {
@@ -20,4 +22,10 @@ button {
     background-color: white;
     z-index: 999999;
     position: fixed;
+}
+
+.footer-status-bar * {
+    height: 20px;
+    padding: 0 3px;
+    margin: 0;
 }
