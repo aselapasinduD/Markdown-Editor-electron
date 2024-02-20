@@ -1,12 +1,13 @@
 import React from "react";
-import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
-import remarkReact from "remark-react";
-import RemarkCode from "./remark-code";
+import rehypeReact from "rehype-react";
+import Markdown from "react-markdown";
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import { defaultSchema } from 'hast-util-sanitize';
 import "./preview.css";
 import 'github-markdown-css/github-markdown.css';
+
 
 interface Props {
     doc: string
@@ -21,20 +22,33 @@ const schema = {
 }
 
 const Preview:React.FC<Props> = (props) => {
-    const md = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkReact, {
-        createElement: React.createElement,
-        sanitize: schema,
-        remarkReactComponents: {
-            code: RemarkCode
-        }
-    })
-    .processSync(props.doc).result
+    const { doc } = props
     
     return (
-        <div className="preview-wrapper markdown-body">{md}</div>
+        <Markdown
+            children={doc}
+            className="preview-wrapper markdown-body"
+            remarkPlugins={[remarkGfm, remarkParse]}
+            rehypePlugins={[rehypeReact]}
+            components={{
+                code(props) {
+                    const {children, className, node, ...rest} = props;
+                    const langName = /language-(\w+)/.exec(className || '');
+                    return langName ? (
+                        <SyntaxHighlighter
+                            {...rest}
+                            children={String(children).replace(/\n$/, '')}
+                            language={langName[1]}
+                        />
+                    ) : 
+                    (
+                        <code {...rest} className={className}>
+                            {children}
+                        </code>
+                    )
+                }
+            }}
+        />
     )
 }
 

@@ -32,6 +32,7 @@
     "@types/node": "20.9.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "@types/react-syntax-highlighter": "^15.5.11",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.15.0",
     "@vue/test-utils": "2.4.2",
@@ -70,9 +71,10 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-react": "^8.0.0",
     "remark-gfm": "^4.0.0",
-    "remark-parse": "^11.0.0",
-    "remark-react": "^9.0.1",
-    "unified": "^11.0.4"
+    "remark-parse": "^11.0.0"
   }
 }

@@ -23,17 +23,13 @@ const FooterStatusBar: React.FC<{doc:string}> = (doc) => {
         for(let w=0; w < words.length; w++){
             if(/\w[a-z|A-Z]+/.test(words[w]) && !/\d/.test(words[w])){
                 if(!/^\w/.test(words[w])) {
-                    console.log("not start with <A>: ", words[w]);
                     count++
                     continue
                 }
-                console.log(words[w]);
                 count++;
             }
         }
     }
-    
-    console.log("count: ", count);
     
     return (
         <div className="code-editor-status" style={{fontSize: ".8rem"}}>
